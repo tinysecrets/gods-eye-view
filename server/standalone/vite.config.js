@@ -20,8 +20,8 @@ export function standaloneConfig({ command, mode }, { nominatimStorageDir } = {}
   const tools = standaloneVoiceTools();
   return createBrowserViteConfig({
     plugins: [
-      ...localProviderPlugins({ realtime: { tools }, gemini: { tools }, nominatimStorageDir }),
       wahLahSecurityPlugin(),
+      ...localProviderPlugins({ realtime: { tools }, gemini: { tools }, nominatimStorageDir }),
       localMcpPlugin(),
       googleTokenUnavailablePlugin(),
       apiNotFoundPlugin(),
