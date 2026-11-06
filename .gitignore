@@ -28,3 +28,7 @@ pinokio/.installed
 
 # Transient: a release interrupted mid-assembly (npm run changelog recovers it)
 changelog.d/.assembling/
+
+# Python bytecode and runtime caches
+__pycache__/
+*.py[cod]

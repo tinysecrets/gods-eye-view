@@ -8,14 +8,11 @@ import { apiNotFoundPlugin } from './api-not-found.js';
 import { googleTokenUnavailablePlugin } from './google-token-unavailable.js';
 import { standaloneVoiceTools } from './voiceTools.js';
 import { unwatchedRuntimeDirsPlugin } from './unwatched-cache.js';
+import { wahLahSecurityPlugin } from './wah-lah-security.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 
-/** Load this checkout's configuration and attach its local provider middleware. */
-export function standaloneConfig(
-  { command, mode },
-  { nominatimStorageDir } = {},
-) {
+export function standaloneConfig({ command, mode }, { nominatimStorageDir } = {}) {
   const loaded = loadEnv(mode, root, '');
   for (const [key, value] of Object.entries(loaded)) {
     if (process.env[key] === undefined) process.env[key] = value;
@@ -23,11 +20,8 @@ export function standaloneConfig(
   const tools = standaloneVoiceTools();
   return createBrowserViteConfig({
     plugins: [
-      ...localProviderPlugins({
-        realtime: { tools },
-        gemini: { tools },
-        nominatimStorageDir,
-      }),
+      ...localProviderPlugins({ realtime: { tools }, gemini: { tools }, nominatimStorageDir }),
+      wahLahSecurityPlugin(),
       localMcpPlugin(),
       googleTokenUnavailablePlugin(),
       apiNotFoundPlugin(),
@@ -43,5 +37,4 @@ export function standaloneConfig(
     command,
   });
 }
-
 export default defineConfig(standaloneConfig);

@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#05090d">
+<title>WAH-LAH Security Command</title>
+<style>
+:root{color-scheme:dark;--bg:#05090d;--panel:#0b151c;--line:#203640;--teal:#43e3c0;--gold:#d9b56b;--muted:#88a0aa;--white:#eaf4f4;--red:#ff7373;--amber:#efc274}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% -20%,#16413d 0,transparent 42%),linear-gradient(135deg,#05090d,#071018 65%,#0a1217);color:var(--white);font:14px/1.5 Inter,ui-sans-serif,system-ui,sans-serif;min-height:100vh}
+header{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:18px 3vw;border-bottom:1px solid var(--line);background:#05090de8;position:sticky;top:0;z-index:4;backdrop-filter:blur(16px)}
+.brand{display:flex;gap:14px;align-items:center}.mark{width:42px;height:42px;border:1px solid #4bdcc1;border-radius:12px;display:grid;place-items:center;color:var(--teal);font-size:20px;box-shadow:0 0 28px #3bddb322}.eyebrow{font:700 10px ui-monospace,monospace;letter-spacing:.2em;color:var(--teal)}h1{margin:2px 0 0;font-size:18px;letter-spacing:.12em}header nav{display:flex;gap:10px;align-items:center}
+a,.btn{color:var(--white);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:9px 12px;background:#0c171e;font:700 11px ui-monospace,monospace;letter-spacing:.08em;cursor:pointer}
+a:hover,.btn:hover{border-color:var(--teal);color:var(--teal)}.btn.primary{border-color:#2b9d8b;color:#9dffea;background:#0d2a28}.btn:disabled{opacity:.45;cursor:not-allowed}
+main{max-width:1580px;margin:0 auto;padding:25px 3vw 55px}.topline{display:flex;justify-content:space-between;align-items:end;gap:14px;margin-bottom:18px}.topline h2{font-size:23px;letter-spacing:.04em;margin:0}.sub{color:var(--muted);font-size:12px}
+.statusrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px;margin:18px 0 24px}.metric,.card,.section{border:1px solid var(--line);border-radius:13px;background:linear-gradient(160deg,#0d1a22f0,#091117f2);box-shadow:0 12px 38px #0003}.metric{padding:14px 16px}.metric label{display:block;color:var(--muted);font:700 10px ui-monospace,monospace;letter-spacing:.12em}.metric strong{display:block;font-size:19px;margin-top:5px}.metric small{color:var(--muted);font-size:10px}
+.section{padding:17px;margin-bottom:18px}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:13px}.sectionhead h3{margin:0;font:700 12px ui-monospace,monospace;letter-spacing:.16em;color:var(--gold)}
+.camera-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.card{overflow:hidden;min-width:0}.cardtop{padding:13px 14px 10px;display:flex;justify-content:space-between;gap:10px}.card h4{margin:0;font-size:14px}.meta{font:10px ui-monospace,monospace;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}.pill{font:700 9px ui-monospace,monospace;letter-spacing:.08em;border-radius:30px;border:1px solid var(--line);padding:5px 8px;height:max-content;white-space:nowrap;color:var(--amber)}.pill.good{border-color:#287b6b;color:#80f1d2}.pill.bad{border-color:#874747;color:#ff9a9a}
+.preview{height:210px;background:repeating-linear-gradient(135deg,#0c171d,#0c171d 10px,#0a141a 10px,#0a141a 20px);border-top:1px solid #172a33;border-bottom:1px solid #172a33;display:grid;place-items:center;text-align:center;padding:14px;color:#8ba4ad;position:relative}.preview strong{display:block;color:#c7dddd;font:700 11px ui-monospace,monospace;letter-spacing:.1em}.preview span{display:block;font-size:10px;margin-top:6px}.preview video{width:100%;height:100%;object-fit:contain;background:#020507}.cardbottom{display:flex;justify-content:space-between;align-items:center;gap:7px;padding:10px 12px;flex-wrap:wrap}.cardbottom .btn{font-size:9px;padding:7px 8px}.tiny{font:10px ui-monospace,monospace;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.events{display:flex;flex-direction:column;gap:7px;max-height:330px;overflow:auto}.event,.clip{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 11px;border:1px solid #1b3039;border-radius:8px;background:#081219}.event strong,.clip strong{font-size:11px}.event small,.clip small{display:block;color:var(--muted);font:10px ui-monospace,monospace;margin-top:3px}.capgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.cap{background:#09151b;border:1px solid #1d333c;border-radius:8px;padding:10px}.cap b{display:block;font-size:11px}.cap span{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.playback{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,.9fr);gap:14px}.playback video{width:100%;min-height:260px;max-height:450px;background:#020507;border:1px solid #243840;border-radius:9px}.cliplist{display:flex;flex-direction:column;gap:7px;max-height:450px;overflow:auto}.notice{border-left:3px solid var(--gold);background:#1b1912;padding:11px 13px;color:#d9c89f;border-radius:0 8px 8px 0;font-size:11px;margin-top:12px}.footer{color:var(--muted);font:10px ui-monospace,monospace;text-align:center;padding:24px}
+dialog{width:min(480px,calc(100vw - 28px));border:1px solid #35665c;border-radius:14px;background:#0b171e;color:var(--white);padding:22px;box-shadow:0 25px 100px #000b}dialog::backdrop{background:#000b;backdrop-filter:blur(5px)}dialog h3{margin:0 0 5px;color:var(--teal);font:700 13px ui-monospace,monospace;letter-spacing:.12em}dialog p{color:var(--muted);font-size:12px}label.field{display:block;font:700 10px ui-monospace,monospace;letter-spacing:.1em;color:#aac2c8;margin:14px 0 5px}input{display:block;width:100%;padding:12px;border:1px solid #29434d;border-radius:8px;background:#061017;color:white;font:14px system-ui}input:focus{outline:1px solid var(--teal)}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.formstatus{min-height:18px;color:var(--amber);font-size:11px;margin-top:8px}
+@media(max-width:1050px){.camera-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.statusrow{grid-template-columns:repeat(3,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media(max-width:650px){header{align-items:flex-start;padding:14px 4vw}header nav{flex-direction:column;align-items:stretch}.camera-grid{grid-template-columns:1fr}.topline{align-items:flex-start;flex-direction:column}.statusrow{grid-template-columns:repeat(2,minmax(0,1fr))}.playback{grid-template-columns:1fr}main{padding:18px 4vw}.brand h1{font-size:14px}}
+</style>
+<script src="/vendor/hls.min.js"></script>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="mark">◉</div><div><div class="eyebrow">WAH-LAH // SECURE SYSTEMS</div><h1>SECURITY COMMAND</h1></div></div>
+  <nav><a href="/">← 3D SITUATIONAL VIEW</a><button class="btn primary" id="refresh">REFRESH SYSTEM</button></nav>
+</header>
+<main>
+  <div class="topline"><div><div class="eyebrow">LOCAL FLEET / PRIVATE NETWORK</div><h2>Camera & Event Operations</h2><div class="sub">One camera registry · one event engine · one recording system · one dashboard</div></div><div class="tiny" id="checked">STATUS: CHECKING…</div></div>
+  <div class="statusrow">
+    <div class="metric"><label>VIDEO SOURCES</label><strong id="netCount">—</strong><small>Verified streams / registered nodes</small></div>
+    <div class="metric"><label>ADT TARGETS</label><strong id="adtCount">—</strong><small>Command / DBC835 / OC845</small></div>
+    <div class="metric"><label>EDGE NODE</label><strong id="edgeStatus">—</strong><small id="edgeDetail">dhakidd-inspir04</small></div>
+    <div class="metric"><label>RECORDER</label><strong id="recorderStatus">—</strong><small id="recorderDetail">RAM ring buffer</small></div>
+    <div class="metric"><label>RECORDING STORAGE</label><strong id="storagePct">—</strong><small id="storageDetail">/data/camera-clips</small></div>
+  </div>
+  <section class="section">
+    <div class="sectionhead"><h3>01 / REGISTERED CAMERA FLEET</h3><span class="tiny" id="cameraSummary">Loading…</span></div>
+    <div class="camera-grid" id="cameras"></div>
+    <div class="notice">Video is ingested without audio. Sercomm and phone credentials are saved locally on dhakidd only after FFprobe verifies actual video. LG G8 microphone permissions and system microphone policy remain untouched.</div>
+  </section>
+  <section class="section">
+    <div class="sectionhead"><h3>02 / RECORDED EVENT PLAYBACK</h3><span class="tiny" id="clipCount">No committed clips</span></div>
+    <div class="playback">
+      <div><video id="playbackVideo" controls playsinline></video><div class="tiny" id="playbackLabel">Select a committed event clip to review footage.</div></div>
+      <div class="cliplist" id="clips"><div class="tiny">No event footage has been committed yet.</div></div>
+    </div>
+    <div class="notice">The ring buffer is temporary RAM storage. A motion/person/vehicle/object event or manual bookmark commits the pre-event buffer and post-event footage to /data/camera-clips/. No permanent idle video is saved.</div>
+  </section>
+  <div class="grid2">
+    <section class="section"><div class="sectionhead"><h3>03 / EVENT LEDGER</h3><span class="tiny" id="eventCount">0 events</span></div><div class="events" id="events"><div class="tiny">No events recorded.</div></div></section>
+    <section class="section"><div class="sectionhead"><h3>04 / SYSTEM CAPABILITIES</h3></div><div class="capgrid" id="capabilities"></div></section>
+  </div>
+  <div class="footer">WAH-LAH SECURITY · dhakidd · TAILSCALE PRIVATE NETWORK · VIDEO-ONLY CAPTURE</div>
+</main>
+<dialog id="credentialDialog">
+  <form id="credentialForm">
+    <h3>VERIFY CAMERA STREAM</h3>
+    <p id="credentialCamera">Enter the device camera login. It is tested before saving and never returned by the API.</p>
+    <input id="credentialCameraId" type="hidden">
+    <label class="field" for="cameraUsername">CAMERA USERNAME</label><input id="cameraUsername" name="username" autocomplete="username" required maxlength="128">
+    <label class="field" for="cameraPassword">CAMERA PASSWORD</label><input id="cameraPassword" name="password" type="password" autocomplete="current-password" required maxlength="256">
+    <div class="formstatus" id="credentialStatus" role="status"></div>
+    <div class="dialog-actions"><button class="btn" type="button" id="credentialCancel">CANCEL</button><button class="btn primary" type="submit" id="credentialSave">TEST & SAVE</button></div>
+  </form>
+</dialog>
+<script>
+const $ = id => document.getElementById(id);
+const state = { livePlayers: [], playback: null };
+const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => { if (!Number.isFinite(n)) return '—'; const u=['B','KB','MB','GB','TB']; let i=0; while(n>=1024&&i<u.length-1){n/=1024;i++} return n.toFixed(i?1:0)+' '+u[i]; };
+function pill(status) {
+  const good = /video_stream_verified|buffering|online|running/.test(status);
+  const bad = /unreachable|authentication_failed|start_failed/.test(status);
+  return '<span class="pill '+(good?'good':bad?'bad':'')+'">'+esc(String(status||'pending').replaceAll('_',' ').toUpperCase())+'</span>';
+}
+function card(camera, health, recorder) {
+  const status = health?.status || camera.status || 'pending';
+  const ready = status === 'video_stream_verified';
+  const ring = recorder?.status === 'buffering' && recorder?.live_playlist;
+  const candidateAddresses = camera.candidate_addresses || health?.candidate_addresses || [];
+  const location = camera.address || health?.address ||
+    (candidateAddresses.length ? 'Candidates: ' + candidateAddresses.map(item => typeof item === 'string' ? item : item.address).filter(Boolean).join(', ') : 'No local address');
+  const details = location + (camera.port ? ':'+camera.port : '') + ' · ' +
+    (camera.transport || camera.product || 'integration') +
+    (camera.adt_relationship ? ' · ' + camera.adt_relationship.replaceAll('_',' ') : '');
+  let preview = '<div><strong>'+esc(ready?'VIDEO VERIFIED':status==='rtsp_auth_required'?'RTSP LOGIN REQUIRED':status==='local_panel_auth_required'?'LOCAL PANEL · LOGIN REQUIRED':status==='sercomm_camera_candidates_found_model_unassigned'?'ADT CAMERA MODEL / IP MATCH PENDING':status==='host_online_stream_service_missing'?'PHONE ONLINE · START CAMERA SERVER':status==='integration_pending'?'ADT INTEGRATION PENDING':'CONNECTION NOT VERIFIED')+'</strong><span>'+esc(ready?(health.video?.codec||'video')+' · '+(health.video?.width||'?')+'×'+(health.video?.height||'?')+' · '+(health.stream_path||camera.stream_path||'RTSP'):status==='rtsp_auth_required'?'Enter the camera login to verify decoded video':status==='local_panel_auth_required'?'Resideo panel candidate · local web Digest login required':status==='sercomm_camera_candidates_found_model_unassigned'?'RTSP camera candidates found; exact DBC835 / OC845 assignment still pending':status==='integration_pending'?'ADT model/account access has not been verified':'Check the device camera service and stream setup')+'</span></div>';
+  if (ready && ring) preview = '<video class="live-feed" data-live="'+esc(camera.id)+'" data-src="'+esc(recorder.live_playlist)+'" muted autoplay playsinline controls></video>';
+  else if (ready) preview = '<div><strong>STREAM VERIFIED · BUFFER STARTING</strong><span>Recorder is opening the bounded RAM ring</span></div>';
+  const credential = camera.transport === 'rtsp' && !ready ? '<button class="btn" data-credentials="'+esc(camera.id)+'">VERIFY LOGIN</button>' : '';
+  const bookmark = camera.recording_enabled === false ? '' : '<button class="btn" data-bookmark="'+esc(camera.id)+'">LOG EVENT</button>';
+  return '<article class="card"><div class="cardtop"><div><h4>'+esc(camera.name)+'</h4><div class="meta">'+esc(details)+'</div></div>'+pill(status)+'</div><div class="preview">'+preview+'</div><div class="cardbottom"><span class="tiny">'+esc(camera.vendor||camera.manufacturer||camera.product||'DEVICE')+' / '+esc(camera.model||'NODE')+'</span>'+credential+bookmark+'</div></article>';
+}
+function attachLiveFeeds() {
+  for (const player of state.livePlayers) player.destroy?.();
+  state.livePlayers = [];
+  document.querySelectorAll('video[data-live]').forEach(video => {
+    const src = video.dataset.src;
+    if (!src) return;
+    if (window.Hls && Hls.isSupported()) {
+      const player = new Hls({enableWorker:true, lowLatencyMode:true, liveSyncDurationCount:2, maxBufferLength:15});
+      player.loadSource(src); player.attachMedia(video); state.livePlayers.push(player);
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) video.src = src;
+  });
+}
+function attachPlayback(url) {
+  if (state.playback) { state.playback.destroy?.(); state.playback = null; }
+  const video = $('playbackVideo');
+  video.pause(); video.removeAttribute('src'); video.load();
+  if (!url) return;
+  if (url.endsWith('.mp4')) { video.src = url; video.load(); video.play().catch(()=>{}); return; }
+  if (window.Hls && Hls.isSupported()) {
+    state.playback = new Hls({enableWorker:true});
+    state.playback.loadSource(url); state.playback.attachMedia(video);
+    state.playback.on(Hls.Events.MANIFEST_PARSED,()=>video.play().catch(()=>{}));
+  } else if (video.canPlayType('application/vnd.apple.mpegurl')) { video.src=url; video.play().catch(()=>{}); }
+}
+async function refresh() {
+  $('refresh').disabled = true;
+  try {
+    const responses = await Promise.all([
+      fetch('/api/wah-lah/security/registry',{cache:'no-store'}).then(r=>r.json()),
+      fetch('/api/wah-lah/security/health',{cache:'no-store'}).then(r=>r.json()),
+      fetch('/api/wah-lah/security/events',{cache:'no-store'}).then(r=>r.json()),
+      fetch('/api/wah-lah/security/clips',{cache:'no-store'}).then(r=>r.json()),
+      fetch('/api/wah-lah/security/recording',{cache:'no-store'}).then(r=>r.json())
+    ]);
+    const [registry, health, events, clips, recorder] = responses;
+    const cameraHealth = new Map((health.cameras||[]).map(x=>[x.id,x]));
+    const ringHealth = new Map((recorder.cameras||[]).map(x=>[x.id,x]));
+    const all = [...(registry.cameras||[]),...(registry.adt_targets||[])];
+    $('cameras').innerHTML = all.map(camera => card(camera,cameraHealth.get(camera.id),ringHealth.get(camera.id))).join('');
+    attachLiveFeeds();
+    const verified = (health.cameras||[]).filter(x=>x.status==='video_stream_verified').length;
+    $('netCount').textContent = verified+' / '+(registry.cameras||[]).length;
+    $('adtCount').textContent = (registry.adt_targets||[]).length+' pending';
+    $('edgeStatus').textContent = String(health.edge?.status||'unknown').toUpperCase();
+    $('edgeDetail').textContent = health.edge?.address || 'not configured';
+    $('recorderStatus').textContent = String(recorder.state||'starting').toUpperCase();
+    $('recorderDetail').textContent = (recorder.active_event_sessions||0)+' active event sessions · '+(recorder.pre_event_seconds||30)+'s pre-buffer';
+    $('storagePct').textContent = health.storage?.used_percent==null?'—':health.storage.used_percent+'%';
+    $('storageDetail').textContent = fmt(health.storage?.available_bytes)+' free on recording volume';
+    $('checked').textContent = 'LAST CHECK '+new Date(health.checked_at).toLocaleTimeString();
+    $('cameraSummary').textContent = all.length+' registered · '+verified+' verified video streams';
+    $('eventCount').textContent = (events.events||[]).length+' events';
+    $('events').innerHTML = (events.events||[]).length ? events.events.map(item=>'<div class="event"><div><strong>'+esc(item.type.replaceAll('_',' ').toUpperCase())+' · '+esc(item.camera_id)+'</strong><small>'+esc(new Date(item.timestamp).toLocaleString())+' · '+esc(item.source)+'</small></div>'+pill(item.video_capture||'metadata saved')+'</div>').join('') : '<div class="tiny">No events recorded.</div>';
+    $('clipCount').textContent = (clips.clips||[]).length+' committed clips';
+    $('clips').innerHTML = (clips.clips||[]).length ? clips.clips.map(clip=>'<div class="clip"><div><strong>'+esc(clip.event_type.toUpperCase())+' · '+esc(clip.camera_id)+'</strong><small>'+esc(new Date(clip.timestamp).toLocaleString())+' · '+clip.segment_count+' segments</small></div><button class="btn" data-play-clip="'+esc(clip.clip_id)+'" data-play-url="'+esc(clip.mp4_url||clip.playlist_url)+'">PLAY</button></div>').join('') : '<div class="tiny">No event footage committed yet. Log a bookmark after a camera buffer is active.</div>';
+    $('capabilities').innerHTML = [
+      ['Live camera feeds',verified+' decoded stream(s) · video only'],
+      ['RAM rolling buffer',recorder.engine ? 'Recorder '+recorder.state+' · '+(recorder.segment_seconds||5)+'s chunks' : 'Waiting for recorder'],
+      ['Event-gated saving', 'Pre-event + post-event clip commit'],
+      ['Playback timeline',(clips.clips||[]).length+' indexed clip(s)'],
+      ['AI detections','Lubuntu MobileNet-SSD / OpenCV edge node'],
+      ['Camera health','Connection and stream failure monitoring'],
+      ['ADT integration','Command / DBC835 / OC845 pending access'],
+      ['Audio protection','Capture disabled · G8 mic policy preserved']
+    ].map(item=>'<div class="cap"><b>'+esc(item[0])+'</b><span>'+esc(item[1])+'</span></div>').join('');
+  } catch (error) {
+    $('checked').textContent = 'HEALTH ERROR: '+error.message;
+  } finally { $('refresh').disabled = false; }
+}
+$('refresh').addEventListener('click',refresh);
+$('cameras').addEventListener('click',async event=>{
+  const credential = event.target.closest('[data-credentials]');
+  if (credential) {
+    const id = credential.dataset.credentials;
+    const registry = await fetch('/api/wah-lah/security/registry').then(r=>r.json());
+    const camera = (registry.cameras||[]).find(x=>x.id===id);
+    $('credentialCameraId').value=id;
+    $('credentialCamera').textContent='Enter the RTSP login for '+(camera?.name||id)+'. The password is tested, then stored only on dhakidd with owner-only file permissions.';
+    $('cameraUsername').value=''; $('cameraPassword').value=''; $('credentialStatus').textContent='';
+    $('credentialDialog').showModal(); $('cameraUsername').focus(); return;
+  }
+  const bookmark = event.target.closest('[data-bookmark]');
+  if (!bookmark) return;
+  bookmark.disabled=true;
+  try {
+    const response = await fetch('/api/wah-lah/security/events',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({camera_id:bookmark.dataset.bookmark,type:'manual_bookmark',source:'operator',note:'Manual event bookmark from WAH-LAH Security Command'})});
+    const data=await response.json(); if(!response.ok) throw new Error(data.error||'Event could not be saved');
+    await refresh();
+  } catch(error) { alert(error.message); }
+  finally { bookmark.disabled=false; }
+});
+$('clips').addEventListener('click',event=>{
+  const button=event.target.closest('[data-play-clip]'); if(!button) return;
+  attachPlayback(button.dataset.playUrl);
+  $('playbackLabel').textContent='PLAYING · '+button.dataset.playClip;
+});
+$('credentialCancel').addEventListener('click',()=>$('credentialDialog').close());
+$('credentialForm').addEventListener('submit',async event=>{
+  event.preventDefault();
+  const button=$('credentialSave'); button.disabled=true;
+  $('credentialStatus').textContent='Testing RTSP login and decoding video…';
+  try {
+    const response=await fetch('/api/wah-lah/security/credentials/test',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({camera_id:$('credentialCameraId').value,username:$('cameraUsername').value,password:$('cameraPassword').value})});
+    const data=await response.json(); if(!response.ok) throw new Error(data.error||'Camera verification failed');
+    $('cameraPassword').value='';
+    $('credentialStatus').textContent='VIDEO VERIFIED · '+data.video.codec+' · '+data.video.width+'×'+data.video.height+' · saved locally';
+    await refresh(); setTimeout(()=>$('credentialDialog').close(),1800);
+  } catch(error) { $('credentialStatus').textContent=error.message; }
+  finally { button.disabled=false; }
+});
+refresh();
+setInterval(refresh,15000);
+</script>
+</body>
+</html>

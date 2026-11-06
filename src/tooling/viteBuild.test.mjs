@@ -146,7 +146,12 @@ test('root config retains existing named exports and standalone provider order',
   const config = standaloneConfig({ mode: 'test' }, { nominatimStorageDir });
   const standaloneProviders = config.plugins
     .slice(4, -6)
+    .filter((plugin) => plugin.name !== 'wah-lah-security-console')
     .map((plugin) => plugin.name);
+  assert.ok(
+    config.plugins.some((plugin) => plugin.name === 'wah-lah-security-console'),
+    'the standalone application registers the WAH-LAH security console',
+  );
   assert.equal(
     standaloneProviders.filter((name) => name === 'gemini-live-proxy').length,
     1,
@@ -161,7 +166,8 @@ test('root config retains existing named exports and standalone provider order',
       .localProviderPlugins({ nominatimStorageDir })
       .map((plugin) => plugin.name),
   );
-  assert.equal(config.plugins.at(-7).name, 'gev-key-setup');
+  assert.equal(config.plugins.at(-8).name, 'gev-key-setup');
+  assert.equal(config.plugins.at(-7).name, 'wah-lah-security-console');
   // Token fallback follows real providers and local MCP before the API 404.
   assert.equal(config.plugins.at(-6).name, 'local-mcp');
   assert.equal(config.plugins.at(-5).name, 'google-token-unavailable');
